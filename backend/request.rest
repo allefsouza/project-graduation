@@ -37,3 +37,7 @@ Content-Type: application/json
  
 ]
 }
+
+### Get All Prices
+GET http://localhost:3003/allprices
+Content-Type: application/json

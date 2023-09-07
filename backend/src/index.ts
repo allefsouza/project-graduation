@@ -5,6 +5,7 @@ import { createClient } from "./endpoints/createClient";
 import { GetAllClients } from "./endpoints/allClients";
 import { getAllPizzas } from "./endpoints/allPizzas";
 import { createOrders } from "./endpoints/createOrders";
+import { getAllPrices } from "./endpoints/allPrices";
 
 
 const app = express();
@@ -29,3 +30,7 @@ app.get("/allpizzas",getAllPizzas)
 
 // Create Orders
 app.post("/createorder", createOrders)
+
+// Return All Prices
+
+app.get("/allprices", getAllPrices)

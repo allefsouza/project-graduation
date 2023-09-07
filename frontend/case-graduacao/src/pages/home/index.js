@@ -1,14 +1,16 @@
 import React from "react";
 import Header from "../../components/headers";
 import { ContainerMain } from "../../components/headers/styled";
-import {Cards } from "../../components/cards/Card";
-
+import Footer from "../../components/footer/footer";
+import Provider from './../../context/Provider';
 
 export default function Home() {
-    return (
-        <ContainerMain>
-            <Header/>
-            <Cards/>
-        </ContainerMain>
-    )
+  return (
+    <Provider>
+      <ContainerMain>
+        <Header />
+        <Footer />
+      </ContainerMain>
+    </Provider>
+  );
 }
