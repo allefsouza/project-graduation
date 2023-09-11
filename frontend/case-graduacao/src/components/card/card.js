@@ -8,8 +8,8 @@ export default function Card({ name, price, onClick, ingredients }) {
   
   return (
     <CardPizza onClick={onClick}>
-      {name}
-      <p>{price}</p>
+      <h4>{name}</h4>
+      <p>R${price}</p>
       <p>{ingredients}</p>
     </CardPizza>
   );

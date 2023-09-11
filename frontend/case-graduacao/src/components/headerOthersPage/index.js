@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   StyledContainer,
   StyledContent,
@@ -9,8 +9,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import backbuttom from "../../assets/imgs/white-back-icon.png";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import AppContext from "../../context/AppContext";
 
 export default function HeaderOthersPage({ title }) {
+  const { cartItems } =useContext(AppContext)
   const navigate = useNavigate();
 
   const handleGoBack = () => {
@@ -28,8 +30,9 @@ export default function HeaderOthersPage({ title }) {
       </StyledContent>
       <CartProps>
         <button onClick={handleCartOrder}>
-          <span>32</span>
+          
           <AiOutlineShoppingCart />
+          {cartItems.length> 0 && <span>{cartItems.length}</span>}
         </button>
       </CartProps>
     </StyledContainer>

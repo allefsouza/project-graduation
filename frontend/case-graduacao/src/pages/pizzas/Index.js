@@ -29,7 +29,7 @@ export default function Pizzas() {
             item={item}
             handleCardAction={handleCardAction} 
           >
-            <Card key={item.id} name={item.nome} ingredients={item.ingredientes} />
+            <Card key={item.id} price={item.preco} name={item.nome} ingredients={item.ingredientes} />
           </AnimatedCard>
         )}
       />

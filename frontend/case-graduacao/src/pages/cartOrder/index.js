@@ -7,15 +7,16 @@ import AppContext from "../../context/AppContext";
 
 export default function CartOrder() {
   const {cartItems} = useContext(AppContext)
+  const totalPrice = cartItems.reduce((acc, item )=>item.preco + acc, 0);
 
   return (
     <div>
       <HeaderOthersPage title='Carrinho'/>
       <Cart>
         <CartItens>
-          {cartItems.map((item)=> <CardCart key={item.id} name={item.nome}/>)}
+          {cartItems.map((item)=> <CardCart price={item.preco} id={item.id} key={item.id} name={item.nome} preco={item.preco}/>)}
         </CartItens>
-        <CartResume>Resume de carrinho.</CartResume>
+        <CartResume>Valor do pedido:R${totalPrice}</CartResume>
       </Cart>
       <Footer/>
     </div>

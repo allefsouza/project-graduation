@@ -10,7 +10,6 @@ const SearchComponent = ({
   itemKey,
   placeholder,
   title,
-  handleCardAction,
   renderItem,
 }) => {
   const { searchTerm, searchResults, setSearchTerm, setSearchResults } =
