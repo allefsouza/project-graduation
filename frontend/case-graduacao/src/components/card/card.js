@@ -1,7 +1,7 @@
 import React from "react";
 import { CardPizza } from "./styled";
 
-export default function Card({ name, price, onClick, ingredients }) {
+export default function Card({ name, price, onClick, ingredients}) {
   const handleClick = () =>{
     onClick();
   }

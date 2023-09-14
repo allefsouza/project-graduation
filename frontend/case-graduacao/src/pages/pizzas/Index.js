@@ -7,7 +7,7 @@ import Card from "../../components/card/card";
 import AppContext from "../../context/AppContext";
 
 export default function Pizzas() {
-  const { cartItems, setCartItems } = useContext(AppContext);
+  const { cartItems, setCartItems, showDuplicateFlavorPopup, setShowDuplicateFlavorPopup } = useContext(AppContext);
   const handleCardAction = (item) => {
     setCartItems([...cartItems, item])
     console.log(cartItems)
@@ -28,6 +28,7 @@ export default function Pizzas() {
             key={item.id}
             item={item}
             handleCardAction={handleCardAction} 
+            showDuplicateFlavorPopup={showDuplicateFlavorPopup}
           >
             <Card key={item.id} price={item.preco} name={item.nome} ingredients={item.ingredientes} />
           </AnimatedCard>

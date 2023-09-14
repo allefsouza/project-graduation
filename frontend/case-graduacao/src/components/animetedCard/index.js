@@ -1,22 +1,36 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useSpring } from "react-spring";
-import { CardWrapper, OptionsWrapper, Option, Popup } from "./styled";
+import { CardWrapper, OptionsWrapper, Option, Popup, PopupNegative } from "./styled";
+import AppContext from "../../context/AppContext";
 
 const AnimatedCard = ({ children, item, handleCardAction }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
+  const [showDuplicateFlavorPopup, setShowDuplicateFlavorPopup] = useState(false)
+  const {cartItems, setCartItems} = useContext(AppContext)
   const cardAnimation = useSpring({
     transform: showOptions ? "translateY(-40px)" : "translateY(0)",
     config: { tension: 180, friction: 12 },
   });
 
   const handleAddToCart = () => {
-    handleCardAction(item);
-    console.log(item);
-    setShowMessage(true);
-    setTimeout(() => {
+    const flavorAlreadyyAdded = cartItems.some((cartItem)=> cartItem.id === item.id)
+    if(!flavorAlreadyyAdded){
+      setCartItems([...cartItems, item])
+      console.log(item)
+      handleCardAction(item);
+      console.log(item);
+      setShowMessage(true);
+      setTimeout(() => {
       setShowMessage(false);
     }, 2000);
+    }else{
+      setShowDuplicateFlavorPopup(true)
+      setTimeout(()=>{
+        setShowDuplicateFlavorPopup(false)
+      },2000)
+    }
+    
   };
 
   const handleClick = () => {
@@ -36,6 +50,11 @@ const AnimatedCard = ({ children, item, handleCardAction }) => {
         <Popup>
           <p>Sabor Adicionado!</p>
         </Popup>
+      )}
+      {showDuplicateFlavorPopup && (
+        <PopupNegative>
+            <p>Sabor já foi adicionado ao carrinho!</p>
+        </PopupNegative>
       )}
     </CardWrapper>
   );
