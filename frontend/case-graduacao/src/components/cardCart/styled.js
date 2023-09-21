@@ -9,6 +9,7 @@ export const SectionCart = styled.section`
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
   padding: 20px;
+  margin: 40px;
   cursor: pointer;
   &:hover {
     box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);

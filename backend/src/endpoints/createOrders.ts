@@ -1,28 +1,29 @@
 import { Response, Request } from "express";
 import connection from "../database/connections";
-import { TPizzas } from "../models/pizzas";
+import { CreateOrderRequest, CreateOrderResponse } from "../models/pizzas";
 
-export const createOrders = async(req:Request, res:Response)=>{
-    let errorCode = 400;
-    try{
-        const fk_client = req.body.fk_client;
-        const pizzas:TPizzas[] = req.body.pizzas
-        
-        if (!pizzas || !fk_client){
-            throw new Error("Info body invalid")
-        }
-
-        await pizzas.forEach(async pizza => {
-            await connection("pedidos").insert(
-            {
-            fk_client,
-            data_pedido:new Date().toISOString().slice(0,10),
-            fk_pizzas:pizza.id
-            }
-            )
-        })
-        res.status(200).send("Pedido criado com sucesso!")
-    }catch(error:any){
-        res.status(errorCode).send({message:error.message})
-    }    
-}        
+export const createOrders = async (req: Request, res: Response) => {
+    const { fk_client, pizzas } = req.body as CreateOrderRequest;
+  
+    try {
+      // Inserir o pedido no banco de dados e obter o ID do pedido
+      const [orderId] = await connection("pedidos").insert({
+        fk_client,
+        // Você pode adicionar outros campos relacionados ao pedido aqui
+      });
+  
+      // Associar as pizzas ao pedido
+      const orderPizzas = pizzas.map((pizza) => ({
+        fk_pedido: orderId,
+        fk_pizza: pizza.id,
+        // Você pode adicionar outros campos relacionados às pizzas aqui
+      }));
+  
+      await connection("pedidos_pizzas").insert(orderPizzas);
+  
+      const response: CreateOrderResponse = { orderId };
+      res.status(201).send(response);
+    } catch (error: any) {
+      res.status(500).send({ message: "Erro ao criar o pedido.", error: error.message });
+    }
+  };

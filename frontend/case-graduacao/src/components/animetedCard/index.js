@@ -17,9 +17,7 @@ const AnimatedCard = ({ children, item, handleCardAction }) => {
     const flavorAlreadyyAdded = cartItems.some((cartItem)=> cartItem.id === item.id)
     if(!flavorAlreadyyAdded){
       setCartItems([...cartItems, item])
-      console.log(item)
       handleCardAction(item);
-      console.log(item);
       setShowMessage(true);
       setTimeout(() => {
       setShowMessage(false);

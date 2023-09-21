@@ -10,7 +10,6 @@ export default function Pizzas() {
   const { cartItems, setCartItems, showDuplicateFlavorPopup, setShowDuplicateFlavorPopup } = useContext(AppContext);
   const handleCardAction = (item) => {
     setCartItems([...cartItems, item])
-    console.log(cartItems)
   };
   return (
     <div>

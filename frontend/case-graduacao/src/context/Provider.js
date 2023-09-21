@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import propTypes from 'prop-types';
-import AppContext from './AppContext';
+import React, { useState } from "react";
+import propTypes from "prop-types";
+import AppContext from "./AppContext";
 
 function Provider({ children }) {
-
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [products, setProducts] = useState([]);
@@ -11,10 +10,16 @@ function Provider({ children }) {
   const [isCartVisible, setIsCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [selectedPizzaSize, setSelectedPizzaSize] = useState([]);
- 
- 
-  
- 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    payment: "",
+    address: {
+    number: "",
+    complement: "",
+    },
+  });
 
   const value = {
     products,
@@ -25,19 +30,19 @@ function Provider({ children }) {
     setCartItems,
     isCartVisible,
     setIsCartVisible,
-    searchTerm, 
+    searchTerm,
     setSearchTerm,
-    searchResults, 
+    searchResults,
     setSearchResults,
-    selectedPizzaSize, 
+    selectedPizzaSize,
     setSelectedPizzaSize,
+    isModalVisible,
+    setIsModalVisible,
+    formData,
+    setFormData,
   };
 
-  return (
-    <AppContext.Provider value={ value }>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
 
 export default Provider;
