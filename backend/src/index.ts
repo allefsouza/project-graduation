@@ -2,10 +2,13 @@ import express from "express"
 import cors from "cors"
 import ping from "./endpoints/ping";
 import { createClient } from "./endpoints/createClient";
-import { GetAllClients } from "./endpoints/allClients";
+import { getAllClients } from "./endpoints/allClients";
 import { getAllPizzas } from "./endpoints/allPizzas";
 import { createOrders } from "./endpoints/createOrders";
 import { getAllPrices } from "./endpoints/allPrices";
+import { getAllOrders } from "./endpoints/allOrders";
+
+
 
 
 const app = express();
@@ -20,13 +23,16 @@ app.listen(3003,()=>{
 app.get("/ping",ping)
 
 //Add Cliente
-app.post("/client",createClient)
+app.post("/createClient",createClient)
 
-// return all clients
-app.get("/allclients",GetAllClients)
+// Return All Clients
+app.get("/allclients",getAllClients)
 
-/// Return all pizzas
+/// Return All Pizzas
 app.get("/allpizzas",getAllPizzas)
+
+/// Return All Orders
+app.get('/allorders',getAllOrders);
 
 // Create Orders
 app.post("/createorder", createOrders)

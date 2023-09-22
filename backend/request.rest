@@ -2,41 +2,51 @@
 GET http://localhost:3003/ping
 
 ### Create a new cliente
-POST http://localhost:3003/client
+POST http://localhost:3003/createClient
 Content-Type: application/json
 
 {
-    "name":"Allef Souza"
+    "name": "Teste1",
+    "phone": "123456789",
+    "payment": "credito",
+    "address": "Rua Teste",
+    "number": "123"
 }
-
-### Get All Clients
-GET http://localhost:3003/allclients
-Content-Type: application/json
-
-### Get All Pizzas
-GET http://localhost:3003/allpizzas
-Content-Type: application/json
 
 ### Create Orders
 POST http://localhost:3003/createorder
 Content-Type: application/json
 
 {
-    "fk_client":1,
-    "pizzas":[
-  {
+  "id_cliente": 1,
+  "pizzas": [
+    {
     "id": 1,
-    "nome": "Portuguesa"
-    
+    "nome": "Portuguesa",
+    "preco": 20.99,
+    "ingredientes": "Presunto, Ovo, Cebola, Molho de Tomate, Queijo Mussarela, Azeitona"
   },
   {
     "id": 2,
-    "nome": "Napolitana"
-    
+    "nome": "Napolitana",
+    "preco": 21.99,
+    "ingredientes": "Manjericão, Molho de Tomate, Queijo Mussarela"
   }
- 
-]
+    
+  ]
 }
+
+### Get All Clients
+GET http://localhost:3003/allclients
+Content-Type: application/json
+
+### Get All Orders
+GET http://localhost:3003/allorders
+Content-Type: application/json
+
+### Get All Pizzas
+GET http://localhost:3003/allpizzas
+Content-Type: application/json
 
 ### Get All Prices
 GET http://localhost:3003/allprices
