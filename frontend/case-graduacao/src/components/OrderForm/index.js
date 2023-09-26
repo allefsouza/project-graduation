@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
 import { ButtonClose, ButtonConfirm, Input, ModalContent, ModalWrapper, Title, Form, Label, Select  } from './styled';
 import AppContext from '../../context/AppContext';
+import axios from 'axios';
+import { ErrorModal } from '../../hooks/ErrorModal';
+
 
 
 export default function OrderForm({ visible, onClose, onFormSubmit, cart }) {
 
-    const {formData, setFormData} = useContext(AppContext)
-
+    const {formData, setFormData, cartItems, phoneError, setPhoneError} = useContext(AppContext)
+    
     const handleInputChange = (e) => {
         const { id, name, value } = e.target;
         setFormData((prevFormData) => ({
@@ -14,19 +17,59 @@ export default function OrderForm({ visible, onClose, onFormSubmit, cart }) {
           [id || name]: value,
         }));
       };
-    
-      const handleFormSubmit = (e) => {
+
+      const handleFormSubmit = async (e) => {
         e.preventDefault();
-        const orderId = `order_${Math.floor(Math.random() * 10000)}`;
-        const formDataWithCart = {
-            id: orderId,
-            ...formData,
-            cart,
+      
+        try {
+          // Criar o cliente
+          const clientData = {
+            name: formData.name,
+            phone: formData.phone,
+            payment: formData.payment,
+            address: formData.address,
+            number: formData.number,
+            complement: formData.complement,
           };
-        onFormSubmit(formDataWithCart);
-        onClose();
+          
+      
+          const clientResponse = await axios.post('http://localhost:3003/createClient', clientData);
+          console.log('Cliente criado com sucesso:', clientResponse.data);
+      
+          // Capturar o id do cliente da resposta
+          const id_cliente = clientResponse.data.id;
+      
+          // Verificar se o id_cliente foi obtido corretamente
+          if (id_cliente) {
+            // Criar o pedido associado ao cliente
+            const orderData = {
+              id_cliente,
+              pizzas: cartItems.map(item => ({
+                id: item.id,
+                nome: item.nome,
+                preco: item.preco,
+                ingredientes: item.ingredientes
+              })),
+            };
+            console.log('Dados do pedido:', orderData);
+            const orderResponse = await axios.post('http://localhost:3003/createorder', orderData);
+            console.log('Pedido criado com sucesso:', orderResponse.data);
+      
+            // Chamar a função onFormSubmit para atualizar o estado do pedido
+            onFormSubmit(orderResponse.data);
+      
+            // Fechar o modal
+            onClose();
+          } else {
+            console.error('ID do cliente não obtido corretamente.');
+          }
+        } catch (error) {
+          if (error.response && error.response.status === 400 && error.response.data.message === 'Cliente com este número de telefone já existe.') {
+            setPhoneError(true); // Configura o estado de erro do telefone
+          }
+          console.error('Erro ao criar cliente ou pedido:', error);
+        }
       };
-    
 
  return (
     <ModalWrapper visible={visible}>
@@ -58,6 +101,7 @@ export default function OrderForm({ visible, onClose, onFormSubmit, cart }) {
         </Form>
         <ButtonConfirm onClick={handleFormSubmit}>Finalizar Pedido</ButtonConfirm>
         <ButtonClose onClick={onClose}>Fechar</ButtonClose>
+        {phoneError && <ErrorModal message="Cliente com este número de telefone já existe." onClose={() => setPhoneError(false)} />}
       </ModalContent>
     </ModalWrapper>
 );

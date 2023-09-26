@@ -11,6 +11,7 @@ function Provider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const [selectedPizzaSize, setSelectedPizzaSize] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -20,6 +21,7 @@ function Provider({ children }) {
     complement: "",
     },
   });
+  
 
   const value = {
     products,
@@ -40,6 +42,8 @@ function Provider({ children }) {
     setIsModalVisible,
     formData,
     setFormData,
+    phoneError, 
+    setPhoneError
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

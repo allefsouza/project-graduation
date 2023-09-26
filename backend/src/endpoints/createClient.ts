@@ -10,10 +10,20 @@ export const createClient = async (req: Request, res: Response) => {
       throw new Error("Cliente inválido");
     }
 
-    await connection("clientes").insert({ name, address, phone, number, payment }); 
+    const existingClient = await connection("clientes")
+      .where("phone", phone)
+      .first();
 
-    res.status(201).send("Cliente criado com sucesso!"); 
-  } catch (error:any) {
+    if (existingClient) {
+      throw new Error("Cliente com este número de telefone já existe.");
+    }
+
+    // Inserir o cliente e capturar o id inserido
+    const [id] = await connection("clientes").insert({ name, address, phone, number, payment });
+
+    // Retornar o id do cliente na resposta
+    res.status(201).send({ id, message: "Cliente criado com sucesso!" });
+  } catch (error: any) {
     res.status(errorCode).send({ message: error.message });
   }
 };

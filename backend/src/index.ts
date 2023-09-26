@@ -1,4 +1,4 @@
-import express from "express"
+import express, { Router } from "express"
 import cors from "cors"
 import ping from "./endpoints/ping";
 import { createClient } from "./endpoints/createClient";
@@ -7,6 +7,8 @@ import { getAllPizzas } from "./endpoints/allPizzas";
 import { createOrders } from "./endpoints/createOrders";
 import { getAllPrices } from "./endpoints/allPrices";
 import { getAllOrders } from "./endpoints/allOrders";
+import { deleteCliente } from "./endpoints/delClient";
+import { deleteOrder } from "./endpoints/delOrders";
 
 
 
@@ -26,13 +28,13 @@ app.get("/ping",ping)
 app.post("/createClient",createClient)
 
 // Return All Clients
-app.get("/allclients",getAllClients)
+app.get("/allclients/:id_cliente?", getAllClients);
 
 /// Return All Pizzas
-app.get("/allpizzas",getAllPizzas)
+app.get("/allpizzas/:id?", getAllPizzas);
 
 /// Return All Orders
-app.get('/allorders',getAllOrders);
+app.get("/allorders/:id_pedido?", getAllOrders);
 
 // Create Orders
 app.post("/createorder", createOrders)
@@ -40,3 +42,9 @@ app.post("/createorder", createOrders)
 // Return All Prices
 
 app.get("/allprices", getAllPrices)
+
+// Delete Client
+app.delete("/clients/:id_cliente", deleteCliente);
+
+// Delete Orders
+app.use('/orders/:id_pedido', deleteOrder);

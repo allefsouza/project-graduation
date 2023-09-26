@@ -1,7 +1,7 @@
 export interface Cliente {
   id_cliente?: number; // O id_cliente é opcional, pois será atribuído pelo banco de dados
   name: string;
-  phone: number;
+  phone: string;
   payment: 'credito' | 'debito' | 'dinheiro';
   address: string;
   number: string;
