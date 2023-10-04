@@ -18,10 +18,24 @@ POST http://localhost:3003/createorder
 Content-Type: application/json
 
 {
-  "id_cliente": 15,
-  "pizzas": [10,20]
-  
+  "id_cliente": 31,
+  "pizzas": [
+    {
+      "id": 1,
+      "nome": "Portuguesa",
+      "preco": 20.99,
+      "ingredientes": "Presunto, Ovo, Cebola, Molho de Tomate, Queijo Mussarela, Azeitona"
+    },
+    {
+      "id": 2,
+      "nome": "Napolitana",
+      "preco": 21.99,
+      "ingredientes": "Manjericão, Molho de Tomate, Queijo Mussarela"
+    }
+  ]
 }
+
+
 
 ### Get All Clients
 GET http://localhost:3003/allclients

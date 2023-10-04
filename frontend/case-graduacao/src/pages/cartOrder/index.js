@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext} from "react";
 import { Cart, CartItens, CartResume, ButtonConfirm } from "./styled";
 import CardCart from "../../components/cardCart";
 import HeaderOthersPage from "../../components/headerOthersPage";
@@ -22,8 +22,7 @@ export default function CartOrder() {
   };
 
   const handleFormSubmit = (formData) => {
-    console.log('Dados do formulário:', formData);
-    console.log('Carrinho atual:', formData.carrinho); // Acesso ao carrinho no formData
+     // Acesso ao carrinho no formData
     setCartItems([]); // Limpar o carrinho após a submissão
     setIsModalVisible(false); // Fechar o modal após a submissão
   };

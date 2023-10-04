@@ -13,7 +13,16 @@ align-items: center;
 `;
 
 export const Select = styled.select `
-    padding: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    overflow: hidden;
+    -webkit-appearance: none;
+    &:focus {
+    outline: none;
+    }
 `
 
 export const Label = styled.label`
@@ -56,9 +65,7 @@ background-color: #008000;
   border-radius: 5px;
   padding: 10px 20px; 
   margin-top: 10px;
-  cursor: pointer;
-  margin-right: 10px; 
-
+  cursor: pointer; 
   &:hover {
     background-color: #ffffff;
     color: #008000;
@@ -71,14 +78,12 @@ background-color: #008000;
 `;
 
 export const ButtonClose = styled.button`
-background-color: #ff0000;
+  background-color: #ff0000;
   color: #ffffff;
   border: 2px solid #ff0000; 
   border-radius: 5px;
   padding: 10px 20px; 
   cursor: pointer;
-  margin-top: 10px;
-
   &:hover {
     background-color: #ffffff;
     color: #ff0000;

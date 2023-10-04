@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import HeaderOthersPage from '../../components/headerOthersPage';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import HeaderOthersPage from "../../components/headerOthersPage";
+import Footer from "../../components/footer/footer";
+import { BoxOrders, Ul } from "./styled";
+import OrderCard from "../../components/ordersCard";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -8,28 +11,37 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const ordersResponse = await axios.get('http://localhost:3003/allorders'); // Endpoint que retorna os pedidos
+        const ordersResponse = await axios.get(
+          "http://localhost:3003/allorders"
+        );
 
-        // Para cada pedido, vamos buscar informações adicionais do cliente e dos sabores
         const ordersWithDetails = await Promise.all(
           ordersResponse.data.map(async (order) => {
-            const clientResponse = await axios.get(`http://localhost:3003/allclients/${order.fk_client}`);
-            const pizzasResponse = await axios.get(`http://localhost:3003/allpizzas/${order.id_pedido}`);
-            
-            // Suponhamos que a API retorne os sabores como um array em pizzasResponse.data.pizzas
-            const pizzas = pizzasResponse.data.pizzas || [];
+            const clientResponse = await axios.get(
+              `http://localhost:3003/allclients/${order.fk_client}`
+            );
+            const pizzasResponse = await axios.get(
+              `http://localhost:3003/allorders/${order.id_pedido}`
+            ); // Endpoint para buscar as pizzas associadas a um pedido
+
+            const pizzas = pizzasResponse.data.map((pizza) => ({
+              id: pizza.id_pizza,
+              nome: pizza.nome,
+              preco: pizza.preco,
+              // outras informações das pizzas se necessário
+            }));
 
             return {
               ...order,
               clientName: clientResponse.data.name,
-              pizzas: pizzas
+              pizzas: pizzas,
             };
           })
         );
 
-        setOrders(ordersWithDetails); // Atualize o estado com os pedidos e suas informações detalhadas
+        setOrders(ordersWithDetails);
       } catch (error) {
-        console.error('Erro ao buscar pedidos:', error);
+        console.error("Erro ao buscar pedidos:", error);
       }
     };
 
@@ -39,20 +51,14 @@ const Orders = () => {
   return (
     <div>
       <HeaderOthersPage title="Pedidos" />
-      <ul>
-        {orders.map((order) => (
-          <li key={order.id_pedido}>
-            <h3>Pedido ID: {order.id_pedido}</h3>
-            <p>Cliente: {order.clientName}</p>
-            <p>Sabores:</p>
-            <ul>
-            {order.pizzas.map((pizza) => (
-  <li key={pizza.id}>{pizza.nome}</li>
-))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+      <BoxOrders>
+        <div>
+          {orders.map((order) => (
+            <OrderCard order={order} key={order.id_pedido} />
+          ))}
+        </div>
+      </BoxOrders>
+      <Footer />
     </div>
   );
 };

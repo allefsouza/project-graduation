@@ -1,4 +1,4 @@
-import express, { Router } from "express"
+import express from "express"
 import cors from "cors"
 import ping from "./endpoints/ping";
 import { createClient } from "./endpoints/createClient";
@@ -9,8 +9,6 @@ import { getAllPrices } from "./endpoints/allPrices";
 import { getAllOrders } from "./endpoints/allOrders";
 import { deleteCliente } from "./endpoints/delClient";
 import { deleteOrder } from "./endpoints/delOrders";
-
-
 
 
 const app = express();
@@ -47,4 +45,4 @@ app.get("/allprices", getAllPrices)
 app.delete("/clients/:id_cliente", deleteCliente);
 
 // Delete Orders
-app.use('/orders/:id_pedido', deleteOrder);
+app.delete('/orders/:id_pedido', deleteOrder);
