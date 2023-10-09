@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {LoginContainer, LoginForm, LoginTitle, LoginButton, InputContainer, Input, Label, ForgotPassword} from '../../pages/login/styled'
 import HeaderOthersPage from '../../components/headerOthersPage';
+import Footer from './../../components/footer/footer';
 
 
 export default function Login() {
@@ -31,6 +32,7 @@ export default function Login() {
       <LoginButton>Enter</LoginButton>
     </LoginForm>
   </LoginContainer>
+  <Footer/>
   </>
  );
 }

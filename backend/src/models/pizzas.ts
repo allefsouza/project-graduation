@@ -1,3 +1,11 @@
+export interface User {
+    id:number,
+    email:string,
+    password:string
+  }
+
+
+
 export interface Cliente {
   id_cliente?: number; // O id_cliente é opcional, pois será atribuído pelo banco de dados
   name: string;
