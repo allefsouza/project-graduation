@@ -12,16 +12,16 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         const ordersResponse = await axios.get(
-          "http://localhost:3003/allorders"
+          "https://project-graduation-backend.vercel.app/allorders"
         );
 
         const ordersWithDetails = await Promise.all(
           ordersResponse.data.map(async (order) => {
             const clientResponse = await axios.get(
-              `http://localhost:3003/allclients/${order.fk_client}`
+              `https://project-graduation-backend.vercel.app/allclients/${order.fk_client}`
             );
             const pizzasResponse = await axios.get(
-              `http://localhost:3003/allorders/${order.id_pedido}`
+              `https://project-graduation-backend.vercel.app/allorders/${order.id_pedido}`
             ); // Endpoint para buscar as pizzas associadas a um pedido
 
             const pizzas = pizzasResponse.data.map((pizza) => ({

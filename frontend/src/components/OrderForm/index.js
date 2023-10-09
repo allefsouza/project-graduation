@@ -25,10 +25,12 @@ export default function OrderForm({ visible, onClose, onFormSubmit, cart }) {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    localStorage.setItem("cartItems", JSON.stringify(formData.cart));
+    // console.log('Salvando carrinho no localStorage', formData.cart);
 
     try {
-      console.log('Dados do formulário:', formData);
-      console.log('Cliente selecionado:', selectedClient);
+      // console.log('Dados do formulário:', formData);
+      // console.log('Cliente selecionado:', selectedClient);
       if (selectedClient) {
         // Usar o cliente existente para criar o pedido
         const orderData = {
@@ -39,9 +41,9 @@ export default function OrderForm({ visible, onClose, onFormSubmit, cart }) {
             preco: item.preco,
           })),
         };
-        console.log(orderData)
-        const orderResponse = await axios.post('http://localhost:3003/createorder', orderData);
-        console.log('Pedido criado com sucesso:', orderResponse.data);
+        // console.log(orderData)
+        const orderResponse = await axios.post('https://project-graduation-backend.vercel.app/createorder', orderData);
+        // console.log('Pedido criado com sucesso:', orderResponse.data);
 
         onFormSubmit(orderResponse.data);
         onClose();
@@ -56,8 +58,8 @@ export default function OrderForm({ visible, onClose, onFormSubmit, cart }) {
           complement: formData.complement,
         };
 
-        const clientResponse = await axios.post('http://localhost:3003/createClient', clientData);
-        console.log('Cliente criado com sucesso:', clientResponse.data);
+        const clientResponse = await axios.post('https://project-graduation-backend.vercel.app/createClient', clientData);
+        // console.log('Cliente criado com sucesso:', clientResponse.data);
 
         const id_cliente = clientResponse.data.id;
 
@@ -72,8 +74,8 @@ export default function OrderForm({ visible, onClose, onFormSubmit, cart }) {
             })),
           };
 
-          const orderResponse = await axios.post('http://localhost:3003/createorder', orderData);
-          console.log('Pedido criado com sucesso:', orderResponse.data);
+          const orderResponse = await axios.post('https://project-graduation-backend.vercel.app/createorder', orderData);
+          // console.log('Pedido criado com sucesso:', orderResponse.data);
 
           onFormSubmit(orderResponse.data);
           onClose();
@@ -92,7 +94,7 @@ export default function OrderForm({ visible, onClose, onFormSubmit, cart }) {
   useEffect(() => {
     const fetchExistingClients = async () => {
       try {
-        const clientsResponse = await axios.get('http://localhost:3003/allclients');
+        const clientsResponse = await axios.get('https://project-graduation-backend.vercel.app/allclients');
         setExistingClients(clientsResponse.data);
       } catch (error) {
         console.error('Erro ao buscar clientes existentes:', error);

@@ -7,7 +7,7 @@ import Card from "../../components/card/card";
 import AppContext from "../../context/AppContext";
 
 export default function Pizzas() {
-  const { cartItems, setCartItems, showDuplicateFlavorPopup, setShowDuplicateFlavorPopup } = useContext(AppContext);
+  const { cartItems, setCartItems, showDuplicateFlavorPopup } = useContext(AppContext);
   const handleCardAction = (item) => {
     setCartItems([...cartItems, item])
   };
@@ -15,7 +15,7 @@ export default function Pizzas() {
     <div>
       <HeaderOthersPage title="Sabores" />
       <SearchComponent
-        url="http://localhost:3003/allpizzas"
+        url="https://project-graduation-backend.vercel.app/allpizzas"
         searchKey="nome"
         itemKey="id"
         itemDisplayKey="nome"

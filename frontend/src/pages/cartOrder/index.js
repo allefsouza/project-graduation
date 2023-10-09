@@ -1,4 +1,4 @@
-import React, { useContext} from "react";
+import React, { useContext, useEffect} from "react";
 import { Cart, CartItens, CartResume, ButtonConfirm } from "./styled";
 import CardCart from "../../components/cardCart";
 import HeaderOthersPage from "../../components/headerOthersPage";
@@ -11,6 +11,16 @@ export default function CartOrder() {
   const {cartItems, isModalVisible, setIsModalVisible, setCartItems} = useContext(AppContext)
   const totalPrice = cartItems.reduce((acc, item )=>item.preco + acc, 0);
   
+  useEffect(() => {
+    const storedCartItems = localStorage.getItem("cartItems");
+    if (storedCartItems) {
+      try {
+        setCartItems(JSON.parse(storedCartItems));
+      } catch (error) {
+        console.error("Erro ao analisar JSON do carrinho:", error);
+      }
+    }
+  }, []);
   
 
   const handleConfirmOrder = () => {
@@ -23,8 +33,11 @@ export default function CartOrder() {
 
   const handleFormSubmit = (formData) => {
      // Acesso ao carrinho no formData
-    setCartItems([]); // Limpar o carrinho após a submissão
-    setIsModalVisible(false); // Fechar o modal após a submissão
+     const updateCart = formData.Cart || []
+    localStorage.setItem("cartItems", JSON.stringify(updateCart));
+    setCartItems([]);  
+    setIsModalVisible(false); 
+   
   };
 
   return (

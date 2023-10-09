@@ -88,7 +88,7 @@ export default function Header() {
       </SecondDiv>
 
       <SearchComponent
-        url="http://localhost:3003/allprices"
+        url="https://project-graduation-backend.vercel.app/allprices"
         searchKey="name"
         itemKey="id"
         itemDisplayKey="name"
