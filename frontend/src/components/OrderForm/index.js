@@ -22,33 +22,20 @@ export default function OrderForm({ visible, onClose, onFormSubmit, cart }) {
     setSelectedClient(client);
     setShowForm(false);
   };
-
-  const handleFormSubmit = async (e) => {
+  
+  const handleFormSubmit = async (e) => {     
     e.preventDefault();
-    localStorage.setItem("cartItems", JSON.stringify(formData.cart));
-    // console.log('Salvando carrinho no localStorage', formData.cart);
-
+  
     try {
-      // console.log('Dados do formulário:', formData);
-      // console.log('Cliente selecionado:', selectedClient);
+      let clienteId;
+  
+      // Verifica se há um cliente selecionado ou se há um ID de cliente (para um cliente novo)
       if (selectedClient) {
-        // Usar o cliente existente para criar o pedido
-        const orderData = {
-          id_cliente: selectedClient.id_cliente,
-          pizzas: cartItems.map((item) => ({
-            id: item.id,
-            nome: item.nome,
-            preco: item.preco,
-          })),
-        };
-        // console.log(orderData)
-        const orderResponse = await axios.post('https://project-graduation-backend.vercel.app/createorder', orderData);
-        // console.log('Pedido criado com sucesso:', orderResponse.data);
-
-        onFormSubmit(orderResponse.data);
-        onClose();
+        clienteId = selectedClient.id_cliente;
+      } else if (formData.id_cliente) {
+        clienteId = formData.id_cliente;
       } else {
-        // Criar um novo cliente e usar para criar o pedido
+        // Cria um novo cliente, se necessário
         const clientData = {
           name: formData.name,
           phone: formData.phone,
@@ -57,40 +44,48 @@ export default function OrderForm({ visible, onClose, onFormSubmit, cart }) {
           number: formData.number,
           complement: formData.complement,
         };
-
+        console.log(selectedClient )
         const clientResponse = await axios.post('https://project-graduation-backend.vercel.app/createClient', clientData);
-        // console.log('Cliente criado com sucesso:', clientResponse.data);
-
-        const id_cliente = clientResponse.data.id;
-
-        if (id_cliente) {
-          const orderData = {
-            id_cliente:selectedClient.id,
-            pizzas: cartItems.map((item) => ({
-              id: item.id,
-              nome: item.nome,
-              preco: item.preco,
-              ingredientes: item.ingredientes,
-            })),
-          };
-
-          const orderResponse = await axios.post('https://project-graduation-backend.vercel.app/createorder', orderData);
-          // console.log('Pedido criado com sucesso:', orderResponse.data);
-
-          onFormSubmit(orderResponse.data);
-          onClose();
+        console.log('Cliente criado com sucesso:', clientResponse.data);
+        
+  
+        if (clientResponse.data && clientResponse.data.id) {
+          clienteId = clientResponse.data.id;
         } else {
           console.error('ID do cliente não obtido corretamente.');
+          return;
         }
       }
+  
+      // Cria o pedido
+      const orderData = {
+        id_cliente: clienteId,
+        pizzas: cartItems.map((item) => ({
+          id: item.id,
+          nome: item.nome,
+          preco: item.preco,
+          ingredientes: item.ingredientes,
+        })),
+      };
+  
+      console.log('Dados do pedido:', orderData);
+      const orderResponse = await axios.post('https://project-graduation-backend.vercel.app/createorder', orderData);
+      console.log('Pedido criado com sucesso:', orderResponse.data);
+  
+      // Atualize o carrinho local no estado
+      localStorage.setItem("cartItems", JSON.stringify([]));
+  
+      // Chame a função onFormSubmit e onClose com os dados do pedido
+      onFormSubmit(orderResponse.data);
+      onClose();
     } catch (error) {
       if (error.response && error.response.status === 400 && error.response.data.message === 'Cliente com este número de telefone já existe.') {
         setPhoneError(true); // Configura o estado de erro do telefone
       }
       console.error('Erro ao criar cliente ou pedido:', error);
     }
-  };
-
+  };   
+  
   useEffect(() => {
     const fetchExistingClients = async () => {
       try {
@@ -103,6 +98,7 @@ export default function OrderForm({ visible, onClose, onFormSubmit, cart }) {
 
     fetchExistingClients();
   }, []);
+  
 
  return (
   <ModalWrapper visible={visible}>

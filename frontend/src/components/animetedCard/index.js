@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { update, useSpring } from "react-spring";
+import { useSpring } from "react-spring";
 import { CardWrapper, OptionsWrapper, Option, Popup, PopupNegative } from "./styled";
 import AppContext from "../../context/AppContext";
 

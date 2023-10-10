@@ -33,8 +33,8 @@ export default function CartOrder() {
 
   const handleFormSubmit = (formData) => {
      // Acesso ao carrinho no formData
-     const updateCart = formData.Cart || []
-    localStorage.setItem("cartItems", JSON.stringify(updateCart));
+     const updateCart = formData.Cart || [];
+     localStorage.setItem("cartItems", JSON.stringify(updateCart));
     setCartItems([]);  
     setIsModalVisible(false); 
    
