@@ -73,8 +73,9 @@ Install dependence
 ```bash
 -  $ npm install
 ```
-### The backend cant u run local because need the tables of MYSQL, but the backend can u test the endpoints by this link of postman documentation:
-[Documentation of backend](https://documenter.getpostman.com/view/22375602/2s9YJhyLDs)
+### The backend cant u run local because need the tables of MYSQL, but the backend can u test the endpoints by this link of Postman documentation:
+[![My Skills](https://skillicons.dev/icons?i=postman)](https://skillicons.dev)
+- [Documentation of backend](https://documenter.getpostman.com/view/22375602/2s9YJhyLDs)
 
 
 
